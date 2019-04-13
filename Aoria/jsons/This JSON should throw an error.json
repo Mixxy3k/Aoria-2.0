@@ -1,0 +1,38 @@
+{
+  "button1": {
+    "buttonText": "Aoria",
+    "characterSize": 89,
+    "color": "white",
+    "position": {
+      "X": -1,
+      "Y": 50
+    }
+  },
+  "button2": {
+    "buttonText": "Start",
+    "characterSize": 50,
+    "color": "white",
+    "position": {
+      "X": -1,
+      "Y": -1
+    }
+  },
+  "button3": {
+    "buttonText": "Reset",
+    "characterSize": 50,
+    "color": "white",
+    "position": {
+      "X": -1,
+      "Y": -1
+    }
+  },
+  "button4": {
+    "buttonText": "EXIT",
+    "characterSize": 50,
+    "color": "white",
+    "position": {
+      "X": -1,
+      "Y": -1
+    }
+  }
+}

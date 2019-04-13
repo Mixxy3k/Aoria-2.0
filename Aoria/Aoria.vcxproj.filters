@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Code">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Code\SI FILES">
+      <UniqueIdentifier>{732dca33-7cd5-43ed-95be-bddc8f09266b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Guns and bullets">
+      <UniqueIdentifier>{a31ea419-0189-4539-8c58-609e08c9d5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Player">
+      <UniqueIdentifier>{12b992da-d5da-46eb-beeb-a75f355d2e53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\SaveSystem">
+      <UniqueIdentifier>{f1994842-47ec-4126-8a3b-7e454f2a2edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Interactions and features">
+      <UniqueIdentifier>{c99a0122-4df8-494b-b1be-a9b9ba1dd25c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Engine &amp; textures">
+      <UniqueIdentifier>{8addf97d-50f7-4a53-8b9e-d23b3c094eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Engine &amp; textures\Engine">
+      <UniqueIdentifier>{d9a0fd2c-90f7-44b7-bfad-fe5948ac18e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Engine &amp; textures\Console Manager">
+      <UniqueIdentifier>{56da1962-e979-4bbf-920b-fa0e5d6913c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Engine &amp; textures\JsonsManager">
+      <UniqueIdentifier>{ae721d3a-5c9b-4306-a282-969a6008bd7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Engine &amp; textures\JsonsManager\jsons">
+      <UniqueIdentifier>{9f04c31d-ab2c-450d-9965-fe98632772e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Menu">
+      <UniqueIdentifier>{4c456e6e-bd65-4c48-b9fc-21d7731c88ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ConsoleManager.cpp">
+      <Filter>Code\Engine &amp; textures\Console Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Code\Engine &amp; textures\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonManager.cpp">
+      <Filter>Code\Engine &amp; textures\JsonsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Code\Menu</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConsoleManager.h">
+      <Filter>Code\Engine &amp; textures\Console Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Code\Engine &amp; textures\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonManager.h">
+      <Filter>Code\Engine &amp; textures\JsonsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Code\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Code\Engine &amp; textures</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+    <None Include="jsons\Menu.json">
+      <Filter>Code\Engine &amp; textures\JsonsManager\jsons</Filter>
+    </None>
+    <None Include="jsons\Just test json.json">
+      <Filter>Code\Engine &amp; textures\JsonsManager\jsons</Filter>
+    </None>
+    <None Include="jsons\This JSON should throw an error.json">
+      <Filter>Code\Engine &amp; textures\JsonsManager\jsons</Filter>
+    </None>
+    <None Include="data\shader_test.frag">
+      <Filter>Code</Filter>
+    </None>
+  </ItemGroup>
+</Project>
