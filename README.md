@@ -6,10 +6,10 @@ Aoria is just a space shooter C++ (SFML) project.
   - json library and change how the system work
   - Created a simple menu!
 - To-do list:
-  #1 Player (class and texture)
-  #2 SI
-  #3 Class/method for shader load
-  #4 Cool space background
+  - #1 Player (class and texture)
+  - #2 SI
+  - #3 Class/method for shader load
+  - #4 Cool space background
 
 # Aoria 2.0 DEBUG BUILD 1.2
   - Just bugfix...
