@@ -49,12 +49,8 @@ void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	shaderTest->setUniform("time", time.getElapsedTime().asSeconds());
 	target.draw(*background, shaderTest);
 
-	sf::Vector2f mouse(sf::Mouse::getPosition(*window));
 	for (const auto& a : *buttons)
 	{
-		if (this->buttons->operator[](a.first).text.getGlobalBounds().contains(mouse) && this->buttons->operator[](a.first).clickable)
-			this->buttons->operator[](a.first).text.setFillColor(sf::Color::Cyan);
-		else this->buttons->operator[](a.first).text.setFillColor(sf::Color::White);
 		target.draw(a.second.text, states);
 	}
 	
@@ -70,7 +66,7 @@ void Menu::resize(float X, float Y, float sX, float sY)
 		if (!this->buttons->operator[](a.first).customY) {
 			this->buttons->operator[](a.first).text.setPosition(Y, this->buttons->operator[](a.first).text.getPosition().x);
 		}
-		this->buttons->operator[](a.first).text.setCharacterSize(this->buttons->operator[](a.first).defaultCharacterSize * (unsigned int)sY);
+		this->buttons->operator[](a.first).text.setCharacterSize((unsigned int)((float)this->buttons->operator[](a.first).defaultCharacterSize * sY));
 
 		if (X == -1 && this->buttons->operator[](a.first).customX == false) {
 			this->buttons->operator[](a.first).text.setPosition(this->window->getSize().x / 2.f - (int)this->buttons->operator[](a.first).text.getGlobalBounds().width / 2.f,
@@ -81,6 +77,38 @@ void Menu::resize(float X, float Y, float sX, float sY)
 				(float)a.first * this->buttons->operator[](a.first).text.getCharacterSize() * 8.f / sumOfButtons);
 		}
 	}
+}
+int Menu::userInput(sf::Event &event)
+{
+	sf::Vector2f mouse(sf::Mouse::getPosition(*window));
+	int option = 0; //0 -> Nothing, 1-> Game, 2- > Game Reset, 3 -> Exit
+
+	for (const auto& a : *buttons)
+	{
+		if (this->buttons->operator[](a.first).text.getGlobalBounds().contains(mouse) && this->buttons->operator[](a.first).clickable) 
+		{
+			this->buttons->operator[](a.first).text.setFillColor(sf::Color::Cyan);
+			
+			if (event.type == sf::Event::MouseButtonReleased && event.key.code == sf::Mouse::Left) 
+			{
+				switch (a.first)
+				{
+				case 2:
+					return 1;
+				case 3:
+					return 2;
+				case 4:
+					return 3;
+				default:
+					option = 0;
+					break;
+				}
+			}
+
+		}
+		else this->buttons->operator[](a.first).text.setFillColor(sf::Color::White);
+	}
+	return 0;
 }
 bool Menu::createButtons()
 {

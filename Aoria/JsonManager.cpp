@@ -1,8 +1,11 @@
 #include "JsonManager.h"
 
-JsonMenager::JsonMenager(ConsoleManager *_consoleManager)
-	:consoleManager (_consoleManager), jsonsPath(fs::current_path() /= "jsons")
+JsonMenager::JsonMenager(ConsoleManager* _consoleManager)
+	:consoleManager(_consoleManager), jsonsPath(fs::current_path() /= "jsons")
 {
+	this->mustBeJsosn->operator[]("Menu") = 0;
+
+
 	if (!loadAllJsons()) {
 		consoleManager->errorExit("JSON ERROR");
 	}
@@ -13,17 +16,18 @@ JsonMenager::JsonMenager(ConsoleManager *_consoleManager)
 JsonMenager::~JsonMenager()
 {
 	delete jsons;
-	delete criticalJsosn;
+	delete mustBeJsosn;
 }
 
 bool JsonMenager::loadAllJsons()
 {
+	int jsonsAmount = 0;
 	bool findName = false;
 	this->jsons->clear();
 
 	//create an iterator for json files
 	//watch for "jsonPath" folder
-	this->consoleManager->log("Searching for jsons in \"" + jsonsPath.u8string() + "\"","JSON LOG");
+	this->consoleManager->log("Searching for jsons in folder: " + jsonsPath.u8string(),"JSON LOG");
 	if (fs::is_directory(jsonsPath)) 
 	{
 		//watch all files in "jsonPatch" folder
@@ -48,28 +52,31 @@ bool JsonMenager::loadAllJsons()
 					if (it.key().find("module") != std::string::npos && findName == false) {
 						try
 						{
+							jsonsAmount++;
 							name = j["module"]["name"].get<std::string>();
 							this->jsons->operator[](name) = j;
-							this->consoleManager->log("Loaded json from file \"" + p.path().u8string() + "\"", "JSON LOG");
+							this->consoleManager->log("Loaded json from file: " + fs::current_path().u8string() + "\\" +  p.path().u8string(), "JSON LOG");
 							this->file.close();
 							findName = true;
 						}
 						catch (json::exception &e)
 						{
 							this->consoleManager->new_line(); consoleManager->seperator();
-							string a = " \"module\" : { \"name\" } -> "; //e.what() + "blweqeqdqw" not working, e.what() + a works...
-							this->consoleManager->log("Not loaded json \"" + name + "\" from file \"" + p.path().u8string() + "\"", "JSON LOG");
-							this->consoleManager->log(a + e.what(), "JSON ERROR");
-							this->consoleManager->seperator(); consoleManager->new_line();
+							string a = " \"module\" : { \"name\" } -> "; //e.what() + "blweqeqdqw" not working, e.what() + a works... [Dont ask why!]
+							this->consoleManager->log("Not loaded json " + name + " from file: " + fs::current_path().u8string() + "\\" + p.path().u8string(), "JSON LOG");
+							this->consoleManager->errorExit(a + e.what());
 							return false;
 						}
 						
 					}
 				}
 				if (findName == false)
-				{	
+				{
 					this->consoleManager->new_line(); consoleManager->seperator();
-					this->consoleManager->log("Cannot load \"" + p.path().u8string() + "\" add { \"module\" : { \"name\": \"Module Name\" } } to repair a problem!", "JSON WARNING");
+					this->consoleManager->log("Cannot load: " + fs::current_path().u8string() + "\\" + p.path().u8string(), "JSON WARNING");
+					this->consoleManager->log("Please add { \"module\" : { \"name\": \"Module Name\" } } to repair a problem!", "JSON WARNING");
+					this->consoleManager->log("For example: { \"module\" : { \"name\": \"Menu\" }", "JSON WARNING");
+					this->consoleManager->log("Remember, for default game jsons first letter must be UPPERCASE!", "JSON WARNING");
 					this->consoleManager->seperator(); consoleManager->new_line();
 				}
 				file.close();
@@ -85,7 +92,7 @@ bool JsonMenager::loadAllJsons()
 	return true;
 }
 
-std::string JsonMenager::getDataFromJson(const string jsonName, const std::string name, std::vector<string> subname, bool onlyCheck)
+std::string JsonMenager::getDataFromJson(const string jsonName, const std::string name, std::vector<string> subname, bool onlyCheck, bool asInt)
 {
 	json j = this->jsons->operator[](jsonName);
 	bool findName = false;
@@ -100,54 +107,91 @@ std::string JsonMenager::getDataFromJson(const string jsonName, const std::strin
 			//I know... ;-;
 			if (jsonAsString.find(subname.back()) != std::string::npos)
 			{
+
 				if (subnameItems == 1) 
 				{
-					try { 
-						s = j[name][subname.back()].get<std::string>(); 
+					if (!asInt)
+					{
+						try {
+							s = j[name][subname.back()].get<std::string>();
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
-					catch (json::exception) {
-						s = std::to_string(j[name][subname.back()].get<int>());
-					}
-					catch (std::exception &e) {
-						this->consoleManager->errorExit(e.what());
+					else 
+					{
+						try {
+							s = std::to_string(j[name][subname.back()].get<int>());
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
 				}
 				else if (subnameItems == 2) 
 				{
-					try {
-						s = j[name][(&subname.back())[-1]][subname.back()].get<std::string>();
+					if (!asInt)
+					{
+						try {
+							s = j[name][(&subname.back())[-1]][subname.back()].get<std::string>();
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
-					catch (json::exception) {
-						s = std::to_string(j[name][(&subname.back())[-1]][subname.back()].get<int>());
-					}
-					catch (std::exception & e) {
-						this->consoleManager->errorExit(e.what());
+					else
+					{
+						try {
+							s = std::to_string(j[name][(&subname.back())[-1]][subname.back()].get<int>());
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
 				}
 				else if (subnameItems == 3) 
 				{
-					try {
-						s = j[name][(&subname.back())[-2]][(&subname.back())[-1]][subname.back()].get<std::string>();
+					if (!asInt)
+					{
+						try {
+							s = j[name][(&subname.back())[-2]][(&subname.back())[-1]][subname.back()].get<std::string>();
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
-					catch (json::exception) {
-						s = std::to_string(j[name][(&subname.back())[-2]][(&subname.back())[-1]][subname.back()].get<int>());
-					}
-					catch (std::exception & e) {
-						this->consoleManager->errorExit(e.what());
+					else
+					{
+						try {
+							s = std::to_string(j[name][(&subname.back())[-2]][(&subname.back())[-1]][subname.back()].get<int>());
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
 				}
 				else if (subnameItems == 4) 
 				{
-					try {
-						s = j[name][(&subname.back())[-3]][(&subname.back())[-2]][(&subname.back())[-1]]
-							[subname.back()].get<std::string>();
+					if (!asInt)
+					{
+						try {
+							s = j[name][(&subname.back())[-3]][(&subname.back())[-2]][(&subname.back())[-1]]
+								[subname.back()].get<std::string>();
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
-					catch (json::exception) {
-						s = std::to_string(j[name][(&subname.back())[-3]][(&subname.back())[-2]][(&subname.back())[-1]]
-							[subname.back()].get<int>());
-					}
-					catch (std::exception & e) {
-						this->consoleManager->errorExit(e.what());
+					else
+					{
+						try {
+							s = std::to_string(j[name][(&subname.back())[-3]][(&subname.back())[-2]][(&subname.back())[-1]]
+								[subname.back()].get<int>());
+						}
+						catch (std::exception& e) {
+							this->consoleManager->errorExit(e.what());
+						}
 					}
 				}
 				else
@@ -169,7 +213,7 @@ int JsonMenager::getDataFromJsonAsInt(const string jsonName, const std::string n
 
 	try
 	{
-		get = std::stoi(getDataFromJson(jsonName, name, subname));
+		get = std::stoi(getDataFromJson(jsonName, name, subname, false, true));
 	}
 	catch (std::invalid_argument const& e)
 	{
@@ -186,7 +230,7 @@ int JsonMenager::getDataFromJsonAsInt(const string jsonName, const std::string n
 sf::Color JsonMenager::getColorFromJson(const string jsonName, const std::string name, std::vector<string> subname)
 {
 	string color = getDataFromJson(jsonName, name, subname);
-
+	consoleManager->log(color);
 	if (color == "white")
 		return sf::Color::White;
 	if (color == "cyan")
@@ -194,5 +238,6 @@ sf::Color JsonMenager::getColorFromJson(const string jsonName, const std::string
 	if (color == "red")
 		return sf::Color::Red;
 
-	this->consoleManager->log("Unknow color: " + color + " -> used color \"white \"");
+	this->consoleManager->log("Unknow color: " + color + " -> used color \"white\"");
+	return sf::Color::White;
 }

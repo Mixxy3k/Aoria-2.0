@@ -13,7 +13,6 @@ int main() {
 	delete engine;
 #if _DEBUG
 	cout << "Session end!" << endl;
-	system("pause");
 #endif
 	return 0;
 }

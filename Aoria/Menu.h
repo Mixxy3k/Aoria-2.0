@@ -14,6 +14,7 @@ public:
 
 	void menu();
 	void resize(float X, float Y, float sX = 1.0f, float sY = 1.0f );
+	int userInput(sf::Event &event);
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

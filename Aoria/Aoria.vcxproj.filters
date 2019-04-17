@@ -53,6 +53,9 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Code\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Code\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleManager.h">
@@ -69,6 +72,9 @@
     </ClInclude>
     <ClInclude Include="TextureManager.hpp">
       <Filter>Code\Engine &amp; textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Code\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ Engine::Engine()
 	this->gameState = new GameState;
 	this->window = new sf::RenderWindow();
 
-	*gameState = LOADING;
+	//*gameState = LOADING;
 	/* Set window resolution to 1024x512 */
 	this->minimalWindowResolution = sf::Vector2i(1024, 512);
 	/* Creating a window and set title fo relase mode */
@@ -34,7 +34,7 @@ Engine::Engine()
 	this->gameState = new GameState;
 	this->window = new sf::RenderWindow();
 
-	*gameState = LOADING;
+	//*gameState = LOADING;
 	/* Set window resolution to 1024x512 */
 	this->minimalWindowResolution = sf::Vector2i(1024, 512);
 	/* Creating a window and set title fo relase mode */
@@ -90,34 +90,50 @@ void Engine::loadGame()
 	this->menu = new Menu(window, jsonMenager, textureManager, consoleManager);
 
 	*gameState = MENU;
-	runMenu();
+	loop();
 }
+void Engine::loop() 
+{
+	while(*gameState != EXIT)
+	switch (*gameState)
+	{
+	case MENU:
+		runMenu();
+		break;
+	case IN_GAME:
+		runGame();
+		break;
+	default:
+		break;
+	}
 
+	window->close();
+	return;
+}
 void Engine::windowEventMenager()
 {
-	sf::Event event;
-		while (this->window->pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				this->window->close();
-
-			if (event.type == sf::Event::Resized)
-			{
-				if ((int)event.size.width <= this->minimalWindowResolution.x)
-					this->window->setSize(sf::Vector2u(minimalWindowResolution.x, this->window->getSize().y));
-				if ((int)event.size.height <= this->minimalWindowResolution.y)
-					this->window->setSize(sf::Vector2u(this->window->getSize().x, minimalWindowResolution.y));
-
-				this->window->setView(sf::View(sf::FloatRect(0.f, 0.f, (float)this->window->getSize().x, (float)this->window->getSize().y)));
-
-				float sX = (float)this->window->getSize().x / minimalWindowResolution.x;
-				float sY = (float)this->window->getSize().y / minimalWindowResolution.y;
-				this->menu->resize(-1, -1, sX, sY);
-			}
+	while (this->window->pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed) {
+			*gameState = EXIT;
 		}
+		if (event.type == sf::Event::Resized)
+		{
+			if ((int)event.size.width <= this->minimalWindowResolution.x)
+				this->window->setSize(sf::Vector2u(minimalWindowResolution.x, this->window->getSize().y));
+			if ((int)event.size.height <= this->minimalWindowResolution.y)
+				this->window->setSize(sf::Vector2u(this->window->getSize().x, minimalWindowResolution.y));
+
+			this->window->setView(sf::View(sf::FloatRect(0.f, 0.f, (float)this->window->getSize().x, (float)this->window->getSize().y)));
+
+			float sX = (float)this->window->getSize().x / minimalWindowResolution.x;
+			float sY = (float)this->window->getSize().y / minimalWindowResolution.y;
+			this->menu->resize(-1, -1, sX, sY);
+		}
+	}
 }
 
-void Engine::runEngine()
+void Engine::runGame()
 {
 	while (*gameState == IN_GAME && this->window->isOpen())
 	{
@@ -130,10 +146,29 @@ void Engine::runMenu()
 	while (*gameState == MENU && this->window->isOpen()) 
 	{
 		windowEventMenager();
+
+		// 1-> Game, 2- > Game Reset, 3 -> Exit
+		switch (this->menu->userInput(event)) 
+		{
+		case 1:
+			*gameState = IN_GAME;
+			consoleManager->log("User pressed \"Game\" option");
+			break;
+		case 2:
+			consoleManager->log("User pressed \"Reset\" option");
+			consoleManager->log("Not implementet yet!");
+			break;
+		case 3:
+			*gameState = EXIT;
+			consoleManager->log("User pressed \"Exit\" option");
+			return;
+			break;
+		}
+
 		this->window->clear();
 		this->window->draw(*menu);
 		this->window->display();
 
-		Sleep(10);
+		Sleep(10); //We are in Menu, we dont need super extra quality Game Loop here oki <3
 	}
 }

@@ -1,0 +1,30 @@
+LOG: Aoria v: 2.0
+MODULE LOG: Texture Manager Loaded!
+JSON LOG: Searching for jsons in folder: D:\Projects\Aoria\Aoria\jsons
+JSON LOG: Loaded json from file: D:\Projects\Aoria\Aoria\jsons\Just test json.json
+JSON LOG: Loaded json from file: D:\Projects\Aoria\Aoria\jsons\Menu.json
+JSON WARNING: Cannot load: D:\Projects\Aoria\Aoria\jsons\This JSON should throw an error.json
+JSON WARNING: Please add { "module" : { "name": "Module Name" } } to repair a problem!
+JSON WARNING: For example: { "module" : { "name": "Menu" }
+JSON WARNING: Remember, for default game jsons first letter must be UPPERCASE!
+MODULE LOG: JsonManager Created!
+LOG: Loading font and textures!
+LOG: Loaded font data/Fonts/good times/good times rg.ttf
+LOG: Loaded texture ID: 101 [tile] Position: data/tile.png
+LOG: Loaded texture ID: 0 [background] Position: data/background-1409125_1280.png
+LOG: Loaded texture ID: 1 [player] Position: data/Player/ship.png
+LOG: Loaded texture ID: 2 [blueShip] Position: data/Si/bluemoob.png
+LOG: Loaded texture ID: 3 [kineticBullet] Position: data/Kinetic/Kinetic.png
+LOG: Loaded texture ID: 4 [topLeftBar] Position: data/Bar/Top Left Bar.png
+LOG: Loaded texture ID: 5 [topRightBar] Position: data/Bar/Top Right Bar.png
+LOG: Loaded texture ID: 6 [laser] Position: data/Laser/Laser.png
+LOG: All loaded succesful!
+LOG: Creating Menu
+LOG: Json module name: Menu interface v1.0
+LOG: Shaders loaded! [shader test]
+LOG: Created button: ID 1 [Aoria]
+LOG: Created button: ID 2 [Start]
+LOG: Created button: ID 3 [Reset]
+LOG: Created button: ID 4 [EXIT]
+LOG: Menu created
+LOG: Application stoped
