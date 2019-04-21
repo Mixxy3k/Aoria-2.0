@@ -1,6 +1,10 @@
 ﻿# Aoria About
 Aoria is just a space shooter C++ (SFML) project.
 
+# Aoria 2.0 Alpha 1.4.1
+- Updeted:
+  - Console Manager now use teamplates so it can works with more variables types
+
 # Aoria 2.0 DEBUG BUILD 1.3
 - Updated:
   - json library and change how the system work

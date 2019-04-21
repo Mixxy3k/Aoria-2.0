@@ -10,7 +10,7 @@ JsonMenager::JsonMenager(ConsoleManager* _consoleManager)
 		consoleManager->errorExit("JSON ERROR");
 	}
 
-	consoleManager->log("JsonManager Created!", "MODULE LOG");
+	consoleManager->log("MODULE LOG", "JsonManager Created!");
 }
 
 JsonMenager::~JsonMenager()
@@ -27,7 +27,7 @@ bool JsonMenager::loadAllJsons()
 
 	//create an iterator for json files
 	//watch for "jsonPath" folder
-	this->consoleManager->log("Searching for jsons in folder: " + jsonsPath.u8string(),"JSON LOG");
+	//this->consoleManager->log("JSON LOG", "Searching for jsons in folder: " + jsonsPath.u8string());
 	if (fs::is_directory(jsonsPath)) 
 	{
 		//watch all files in "jsonPatch" folder
@@ -73,10 +73,10 @@ bool JsonMenager::loadAllJsons()
 				if (findName == false)
 				{
 					this->consoleManager->new_line(); consoleManager->seperator();
-					this->consoleManager->log("Cannot load: " + fs::current_path().u8string() + "\\" + p.path().u8string(), "JSON WARNING");
-					this->consoleManager->log("Please add { \"module\" : { \"name\": \"Module Name\" } } to repair a problem!", "JSON WARNING");
-					this->consoleManager->log("For example: { \"module\" : { \"name\": \"Menu\" }", "JSON WARNING");
-					this->consoleManager->log("Remember, for default game jsons first letter must be UPPERCASE!", "JSON WARNING");
+					this->consoleManager->log("JSON WARNING", "Cannot load: " + fs::current_path().u8string() + "\\" + p.path().u8string());
+					this->consoleManager->log("JSON WARNING", "Please add { \"module\" : { \"name\": \"Module Name\" } } to repair a problem!");
+					this->consoleManager->log("JSON WARNING", "For example: { \"module\" : { \"name\": \"Menu\" }");
+					this->consoleManager->log("JSON WARNING", "Remember, for default game jsons first letter must be UPPERCASE!");
 					this->consoleManager->seperator(); consoleManager->new_line();
 				}
 				file.close();
@@ -203,7 +203,7 @@ std::string JsonMenager::getDataFromJson(const string jsonName, const std::strin
 	}
 	//If name is not finded!
 	if (s == jsonOutOfRange && onlyCheck == false)
-		this->consoleManager->log("Cannot find \"" + name + "\" in " + jsonName, "JSON WARNING");
+		this->consoleManager->log("JSON WARNING", "Cannot find \"" + name + "\" in " + jsonName);
 	return s;
 }
 
@@ -230,7 +230,6 @@ int JsonMenager::getDataFromJsonAsInt(const string jsonName, const std::string n
 sf::Color JsonMenager::getColorFromJson(const string jsonName, const std::string name, std::vector<string> subname)
 {
 	string color = getDataFromJson(jsonName, name, subname);
-	consoleManager->log(color);
 	if (color == "white")
 		return sf::Color::White;
 	if (color == "cyan")
@@ -238,6 +237,6 @@ sf::Color JsonMenager::getColorFromJson(const string jsonName, const std::string
 	if (color == "red")
 		return sf::Color::Red;
 
-	this->consoleManager->log("Unknow color: " + color + " -> used color \"white\"");
+	this->consoleManager->log("WARRING", "Unknow color: ", color, " -> used color \"white\"");
 	return sf::Color::White;
 }

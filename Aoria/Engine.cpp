@@ -59,7 +59,7 @@ Engine::~Engine() {
 void Engine::loadGame()
 {
 	this->consoleManager->seperator();
-	this->consoleManager->log("Loading font and textures!");
+	this->consoleManager->log("LOG", "Loading font and textures!");
 	this->consoleManager->new_line();
 
 	//Load font to memory
@@ -86,7 +86,7 @@ void Engine::loadGame()
 	this->textureManager->loadTexture("topRightBar", "data/Bar/Top Right Bar.png", 5);
 	this->textureManager->loadTexture("laser", "data/Laser/Laser.png", 6);
 	this->consoleManager->seperator();
-	this->consoleManager->log("All loaded succesful!");
+	this->consoleManager->log("LOG", "Everything loaded succesful!");
 	this->menu = new Menu(window, jsonMenager, textureManager, consoleManager);
 
 	*gameState = MENU;
@@ -152,15 +152,15 @@ void Engine::runMenu()
 		{
 		case 1:
 			*gameState = IN_GAME;
-			consoleManager->log("User pressed \"Game\" option");
+			//consoleManager->log("User pressed \"Game\" option");
 			break;
 		case 2:
-			consoleManager->log("User pressed \"Reset\" option");
-			consoleManager->log("Not implementet yet!");
+			//consoleManager->log("User pressed \"Reset\" option");
+			//consoleManager->log("Not implementet yet!");
 			break;
 		case 3:
 			*gameState = EXIT;
-			consoleManager->log("User pressed \"Exit\" option");
+			//consoleManager->log("User pressed \"Exit\" option");
 			return;
 			break;
 		}

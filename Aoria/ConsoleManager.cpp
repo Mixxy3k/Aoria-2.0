@@ -1,19 +1,22 @@
 #include "ConsoleManager.h"
 
 #if _DEBUG
-ConsoleManager::ConsoleManager(std::string version, std::string debugVersion, sf::RenderWindow* window)
-	:message(), logs(new vector<string>)
+ConsoleManager::ConsoleManager(const std::string& version, const std::string& debugVersion, sf::RenderWindow* window)
+	: logs(new std::vector<std::string>)
 {
 	this->window = window;
 	//Shut up SFML errors
 	sf::err().rdbuf(NULL);
 	showConsole();
-	log("Aoria v" + version + " DEBUG BUILD " + debugVersion, "");
-	log("Console Manager Loaded!", "MODULE LOG");
+	log("MODULE LOG", "Aoria v", version, "Alpha: ", debugVersion);
+	log("MODULE LOG", "Console Manager Loaded!");
+
+	int a = 1;
+	debugLog("VARIABLE", a, "20");
 }
 #else
-ConsoleManager::ConsoleManager(std::string version, sf::RenderWindow* window)
-	:message(), logs(new vector<string>)
+ConsoleManager::ConsoleManager(const std::string& version, sf::RenderWindow* window)
+	: logs(new vector<string>)
 {
 	this->window = window;
 
@@ -26,71 +29,49 @@ ConsoleManager::ConsoleManager(std::string version, sf::RenderWindow* window)
 ConsoleManager::~ConsoleManager()
 {
 	std::ofstream outFile("Logs.txt");
-	log("Application stoped");
+	log("MODULE LOG", "Console & Log manager stopped");
 	for (const auto& e : *logs) outFile << e << "\n";
 	outFile.close();
 	if(logs != NULL) delete logs;
 }
 
-void ConsoleManager::log(const string & message, const string & typeLog)
-{
-	if (typeLog.empty())
-		this->message = "LOG: " + message;
-
-	else
-		this->message = typeLog + ": " + message;
-
-	//Prepare log to save to file
-	logs->push_back(this->message);
-
-	//  { If DEBUG -> Write log to console
-	//	{ If RELASE -> Silent please
-#if _DEBUG
-	cout << this->message << endl;
-#endif // _DEBUG
-}
-
-void ConsoleManager::debugLog(const string& message, const string& typeLog)
-{
-#if _DEBUG
-	log(message, typeLog);
-#endif // _DEBUG
-}
-
-void ConsoleManager::debugLog(const int& message, const string& typeLog)
-{
-#if _DEBUG
-	log(std::to_string(message), typeLog);
-#endif // _DEBUG
-}
-
 void ConsoleManager::seperator()
 {
-	cout << "-----------------------------------" << endl;
+	std::cout << "-----------------------------------" << std::endl;
 }
 
 void ConsoleManager::new_line(int lines)
 {
 	if (lines < 1)
 	{
-		cout << endl;
-		log("Cannot create a " + to_string(lines) +" lines", "WARNING");
-		cout << endl;
+		std::cout << std::endl;
+		log("WARNING", "Cannot create a", lines, "lines");
+		std::cout << std::endl;
 		return;
 	}
 	for (auto i = 0; i < lines; i++) 
-		cout << endl;
+		std::cout << std::endl;
 }
 
-void ConsoleManager::errorExit(string errorText)
+/* TODO
+	TEAMPLATE!
+*/
+void ConsoleManager::errorExit(const std::string & errorText)
 {
 	//*gameState = APP_ERROR;
 	window->close();
 #if (_DEBUG == false)
 	showConsole();
 #endif
-	log(errorText, "ERROR");
+	log("ERROR", errorText);
 	system("pause");
+}
+
+void ConsoleManager::saveToLogs()
+{
+	this->logs->emplace_back(message.str());
+	message.clear();
+	message.str("");
 }
 
 #if  _WIN64

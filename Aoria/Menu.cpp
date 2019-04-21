@@ -6,18 +6,18 @@ Menu::Menu(sf::RenderWindow* window, JsonMenager* jsonMenager, TextureManager* t
 	this->jsonMenager = jsonMenager;
 	this->textureManager = textureManager;
 	this->consoleManager = consoleManager;
-	this->consoleManager->log("Creating Menu");
+	this->consoleManager->log("Modeule Log", "Creating Menu");
 
 	string moduleName = jsonMenager->getDataFromJson("Menu", "module", std::vector<string> {"fullName"});
 
-	this->consoleManager->log("Json module name: " + moduleName);
+	this->consoleManager->log("LOG", "Json module name: ", moduleName);
 
 	/*START Shader test*/
 	if (!shaderTest->loadFromFile("data/shader_test.frag", sf::Shader::Fragment))
 	{
 		this->consoleManager->errorExit("Shaders not loaded! [shader test]");
 	}
-	this->consoleManager->log("Shaders loaded! [shader test]");
+	this->consoleManager->log("LOG", "Shaders loaded! [shader test]");
 	/*END Shader test*/
 
 	if (!this->createButtons()) {
@@ -29,7 +29,7 @@ Menu::Menu(sf::RenderWindow* window, JsonMenager* jsonMenager, TextureManager* t
 	background->setTexture(*bakgroundTexture);
 	background->setTextureRect({ 0,0,1024,512 });
 
-	this->consoleManager->log("Menu created");
+	this->consoleManager->log("LOG", "Menu created");
 	time.restart();
 
 }
@@ -151,7 +151,7 @@ bool Menu::createButtons()
 		this->buttons->operator[](numeration).defaultCharacterSize = text.getCharacterSize();
 		this->buttons->operator[](numeration).clickable = clickable;
 
-		this->consoleManager->log("Created button: ID " + std::to_string(numeration) + " [" + this->buttons->operator[](numeration).text.getString() + "]");
+		this->consoleManager->log("LOG", "Created button: ID " + std::to_string(numeration) + " [" + static_cast<std::string>(buttons->operator[](numeration).text.getString()) + "]");
 
 		combine = base + std::to_string(++numeration);
 	}

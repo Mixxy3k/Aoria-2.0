@@ -37,15 +37,15 @@ public:
 		//If somthing go wrong
 		if (!Texture.loadFromFile(position)) {
 			//Error message
-			consoleManager->log("Cannot load file! + name", "ERROR");
+			consoleManager->errorExit("TODO - ERROR TEXTURE");
 			TextureList[ID] = "ERROR_TEXTURE!";
 			return false;
 		}
 		else {
 			MapTexture[ID] = Texture;
 			TextureList[ID] = name;
-			this->consoleManager->log("Loaded texture ID: " + std::to_string(ID) 
-				 + " [" + name + "] " +  "Position: " + position);
+			this->consoleManager->log("TEXTURE MANAGER", "Loaded texture ID:", ID
+				+ " [" + name + "] ", "Position: ", position);
 			return true;
 		}
 	}
@@ -59,7 +59,7 @@ public:
 
 	bool loadFont(const std::string& position) {
 		if (font.loadFromFile(position)) {
-			this->consoleManager->log("Loaded font " + position);
+			this->consoleManager->log("TEXTURE MANAGER", "Loaded font", position);
 			return true;
 		}
 		return false;
@@ -71,7 +71,7 @@ public:
 		{
 			return this->font;
 		}
-		catch (std::exception &e)
+		catch (const std::exception &e)
 		{
 			consoleManager->errorExit(e.what());
 		}
